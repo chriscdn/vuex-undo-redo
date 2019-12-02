@@ -1,8 +1,8 @@
 {
-  "name": "vuex-undo-redo",
+  "name": "@chriscdn/vuex-undo-redo",
   "version": "1.0.0",
   "description": "A undo/redo manager for Vuex",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/chriscdn/vuex-undo-redo",
   "author": "Christopher Meyer",
   "license": "MIT",
@@ -10,6 +10,7 @@
     "build": "babel src -d lib"
   },
   "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
