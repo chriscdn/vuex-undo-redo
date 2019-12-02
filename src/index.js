@@ -38,7 +38,9 @@ export default function(store, options = {}) {
 		},
 		methods: {
 			currentStateCopy() {
-				let state = store.getters.undoRedoState // [options.getter]
+				// let state = store.getters.undoRedoState // [options.getter]
+
+				let state = store.getters[options.getter]
 
 				// return JSON.stringify(state)
 				// performance?
