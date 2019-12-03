@@ -7,8 +7,8 @@ const defaultOptions = {
 	stackSize: 10,
 	debounceTime: 1000,
 	ignoreMutations: [],
-	mutator: 'undoRedoState',
-	getter: 'undoRedoState'
+	mutator: 'vuexUndoRedo',
+	getter: 'vuexUndoRedo'
 }
 
 export default function(store, options = {}) {
@@ -38,7 +38,7 @@ export default function(store, options = {}) {
 		},
 		methods: {
 			currentStateCopy() {
-				// let state = store.getters.undoRedoState // [options.getter]
+				// let state = store.getters.vuexUndoRedo // [options.getter]
 
 				let state = store.getters[options.getter]
 
@@ -112,6 +112,11 @@ export default function(store, options = {}) {
 				this.snapshotLeading()
 				this.snapshotTrailing()
 			},
+
+			// cancel() {
+			// 	this.snapshotLeading.cancel()
+			// 	this.snapshotTrailing.cancel()
+			// },
 
 			onMutation(mutation, _state) {
 				const ignore = options.ignoreMutations.concat(options.mutator)
