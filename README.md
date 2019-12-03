@@ -8,14 +8,14 @@ There are many Vuex undo/redo solutions, but I couldn't find one that fit my nee
 
 The difficulty is knowing when to create a snapshot of the Vuex state.  Most implementations do this by observing the store for action or mutation events.
 
-Neither of these observers worked for me since many actions in my store make multiple mutations.  This leads to either:
+Neither of these observers worked for me since many actions in my store make multiple mutations.  This lead to either:
 
 - too many snapshots being created when only observing mutations; or
 - missing mutation events when only observing actions.
 
-I also required only sections of my Vuex store to be snapshotted and restored.
+I also required finer control of what parts of the Vuex model should be modifyable by undo and redo events.
 
-This module works by observing mutations and debouncing the snapshot method.  The snapshot is made after no mutation event occur for one second (this is configurable).  This allows an action to make multiple consecutive commits and only have one snapshot created.
+This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for one second (this is configurable).  This allows an action to make multiple consecutive commits with only one snapshot being created.
 
 This may or may not suit your requirements, but has worked well for me.
 
@@ -44,9 +44,9 @@ $ yarn add @chriscdn/vuex-undo-redo
 
 A getter and mutation named `vuexUndoRedo` must be added to your Vuex store (the names can be configured).
 
-The getter value is used when making a snapshot of the current state.  This can be setup to return the entire state of the store or just a part of it.
+The return value of the getter is what gets added to the undo stack.  This can be setup to return the entire state of the store or just a part of it.
 
-The mutation receives the getter snapshot when a undo or redo is applied.  It's your responsibility to unpack the payload and apply it appropriately to the store.
+The mutation receives the snapshot from the getter when an undo or redo is applied.  It's your responsibility to unpack the payload and apply it appropriately to the store.
 
 For example, the following could be used to snapshot and restore the entire Vuex state.
 
@@ -62,7 +62,7 @@ vuexUndoRedo(state, payload) {
 }
 ```
 
-An instance can be made as follows:
+An instance can be instantiated as follows:
 
 ```js
 import VuexUndoRedo from '@chriscdn/vuex-undo-redo'
@@ -76,7 +76,7 @@ It's up to you to decide where to store the `vuexUndoRedo` instance.  For exampl
 Vue.prototype.$vuexUndoRedo = VuexUndoRedo(store, options)
 ````
 
-You could also make it a local variable in a Vue component if interaction with the API is limited to that component.
+You could also make it a local variable in a Vue component.  This might be useful if interaction with the API is limited to that component:
 
 ```js
 created() {
@@ -91,7 +91,7 @@ beforeDestroy() {
 
 ## API
 
-##### Constructor options
+### Constructor options
 
 The default options are as follows and can be overridden.
 
@@ -107,7 +107,7 @@ const options = {
 
 ### Instance properties
 
-The `canUndo` and `canRedo` are reactive properites that return `true` or `false`.  For example, these can be used in the user interface to enable or disable a button.
+The `canUndo` and `canRedo` are reactive properites returning `true` or `false`.  For example, these can be used in the user interface to enable or disable a button.
 
 ```html
 <button :disabled="!vuexUndoRedo.canUndo" @click="vuexUndoRedo.undo">Undo</button>
