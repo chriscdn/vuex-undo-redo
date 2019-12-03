@@ -8,12 +8,12 @@ There are many Vuex undo/redo solutions, but I couldn't find one that fit my nee
 
 The difficulty is knowing when to create a snapshot of the Vuex state.  Most implementations do this by observing the store for action or mutation events.
 
-Neither of these observers worked for me since many actions in my store make multiple mutations.  This lead to either:
+Neither of these approaches worked for me since many actions in my store make multiple mutations.  This lead to either:
 
 - too many snapshots being created when only observing mutations; or
 - missing mutation events when only observing actions.
 
-I also required finer control of what parts of the Vuex model should be modifyable by undo and redo events.
+I also required finer control of what parts of the Vuex model should be observed and modified by undo and redo events.
 
 This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for one second (this is configurable).  This allows an action to make multiple consecutive commits with only one snapshot being created.
 
@@ -42,17 +42,17 @@ $ yarn add @chriscdn/vuex-undo-redo
 
 ## Setup
 
-A getter and mutation named `vuexUndoRedo` must be added to your Vuex store (the names can be configured).
+A getter *and* mutation named `vuexUndoRedo` must be added to your Vuex store (the names can be configured).
 
 The return value of the getter is what gets added to the undo stack.  This can be setup to return the entire state of the store or just a part of it.
 
-The mutation receives the snapshot from the getter when an undo or redo is applied.  It's your responsibility to unpack the payload and apply it appropriately to the store.
+The mutation receives the snapshot from the getter when an undo or redo is applied.  It's your responsibility to apply the payload appropriately to the store.
 
 For example, the following could be used to snapshot and restore the entire Vuex state.
 
 ```js
 // getter
-vuexUndoRedo(state) {
+vuexUndoRedo(state, getters) {
 	return state
 }
 
@@ -107,7 +107,7 @@ const options = {
 
 ### Instance properties
 
-The `canUndo` and `canRedo` are reactive properites returning `true` or `false`.  For example, these can be used in the user interface to enable or disable a button.
+The `canUndo` and `canRedo` properties are reactive and return `true` or `false`.  For example, these can be used in the user interface to enable or disable a button.
 
 ```html
 <button :disabled="!vuexUndoRedo.canUndo" @click="vuexUndoRedo.undo">Undo</button>
