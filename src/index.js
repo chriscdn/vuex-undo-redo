@@ -120,16 +120,16 @@ export default function(store, options = {}) {
 			// },
 
 			onMutation(mutation, _state) {
-				const ignore = options.ignoreMutations.concat(options.mutator)
 
-				if (ignore.includes(mutation.type)) {
+				if (mutation.type == options.mutator) {
 					// do nothing
+				} else if (options.ignoreMutations.includes(mutation.type)) {
+					this.redoStack = [] // reset the redo stack
 				} else {
 					this.snapshot()
+					this.redoStack = [] // reset the redo stack
 				}
 
-				// even if the mutation is ignored since we don't want to clobber it
-				this.redoStack = []
 			},
 			destroy() {
 				this.unsubscribeMutation()
