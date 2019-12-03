@@ -3,6 +3,7 @@ import Vue from 'vue'
 const debounce = require('lodash.debounce')
 const clonedeep = require('lodash.clonedeep')
 
+
 const defaultOptions = {
 	stackSize: 10,
 	debounceTime: 1000,
@@ -51,7 +52,7 @@ export default function(store, options = {}) {
 				// let newState = JSON.parse(state)
 				let newState = state
 				store.commit(options.mutator, newState)
-				this.previousState = state
+				this.previousState = clonedeep(state)
 			},
 
 			undo() {
@@ -124,9 +125,11 @@ export default function(store, options = {}) {
 				if (ignore.includes(mutation.type)) {
 					// do nothing
 				} else {
-					this.redoStack = []
 					this.snapshot()
 				}
+
+				// even if the mutation is ignored since we don't want to clobber it
+				this.redoStack = []
 			},
 			destroy() {
 				this.unsubscribeMutation()
