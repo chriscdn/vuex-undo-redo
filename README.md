@@ -105,7 +105,7 @@ const options = {
 
 ### Instance properties
 
-The `canUndo` and `canRedo` properties are reactive and return `true` or `false`.  These can, for example, be used in the user interface to enable or disable buttons.
+The `canUndo` and `canRedo` reactive properties return `true` or `false`.  These can, for example, be used in the user interface to enable or disable buttons.
 
 ```html
 <button :disabled="!vuexUndoRedo.canUndo" @click="vuexUndoRedo.undo">Undo</button>
