@@ -78,7 +78,7 @@ You could also make it a local variable in a Vue component.  This might be usefu
 
 ```js
 created() {
-	this.vuexUndoRedo = VuexUndoRedo(this.$store)
+	this.vuexUndoRedo = VuexUndoRedo(this.$store, options)
 },
 
 beforeDestroy() {
@@ -91,7 +91,7 @@ beforeDestroy() {
 
 ### Constructor options
 
-The default options are as follows and can be overridden.
+The default options are as follows and can be overridden:
 
 ```js
 const options = {
