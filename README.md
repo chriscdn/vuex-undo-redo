@@ -22,7 +22,7 @@ This may or may not suit your requirements, but has worked well for me.
 - can be dynamically added and removed from an existing store
 - can be setup to snapshot and restore all or parts of your Vuex store
 - convenient `canUndo` and `canRedo` reactive properties (to use in your UI)
-- can be configured ￼￼to ignore specific mutation events
+- can be configured to ignore specific mutation events
 
 ## Installing
 
@@ -42,11 +42,11 @@ $ yarn add @chriscdn/vuex-undo-redo
 
 A getter and mutation named `vuexUndoRedo` must be added to your Vuex store (the names can be configured).
 
-The `vuexUndoRedo` getter return value is what gets added to the undo stack.  This can be setup to return the entire Vuex state or just a section of it.
+The `vuexUndoRedo` getter return value is added to the undo stack when a snapshot is made.  This can be setup to return the entire Vuex state or just a section of it.  The value gets passed to the `vuexUndoRedo` mutation when an undo or redo event takes place.
 
-The `vuexUndoRedo` mutation receives the snapshot payload when an undo or redo is applied.  It's your responsibility to apply the payload appropriately to the store.
+The `vuexUndoRedo` mutation receives the undo/redo payload when an undo or redo event occurs.  The mutation applies the payload to the store.
 
-For example, the following could be used to snapshot and restore the entire Vuex state.
+For example, the following getter and mutation could be used to snapshot and restore the entire Vuex state.
 
 ```js
 // getter
@@ -68,7 +68,7 @@ import VuexUndoRedo from '@chriscdn/vuex-undo-redo'
 const vuexUndoRedo = VuexUndoRedo(store[, options])
 ```
 
-It's up to you to decide where you'd like to store the `vuexUndoRedo` instance.  For example, to make it globally available you could add it to the Vue prototype:
+It's up to you to decide how you'd like to store the `vuexUndoRedo` instance.  For example, to make it globally available you could add it to the Vue prototype:
 
 ```js
 Vue.prototype.$vuexUndoRedo = VuexUndoRedo(store, options)
@@ -105,7 +105,7 @@ const options = {
 
 ### Instance properties
 
-The `canUndo` and `canRedo` reactive properties return `true` or `false`.  These can, for example, be used in the user interface to enable or disable buttons.
+The `canUndo` and `canRedo` reactive properties return `true` or `false`.  These could, for example, be used in the user interface to enable or disable buttons.
 
 ```html
 <button :disabled="!vuexUndoRedo.canUndo" @click="vuexUndoRedo.undo">Undo</button>
