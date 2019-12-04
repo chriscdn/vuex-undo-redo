@@ -6,7 +6,7 @@ An undo/redo for Vuex.
 
 There are many Vuex undo/redo solutions, but I couldn't find one that fit my needs.
 
-The difficulty is knowing when to snapshot the Vuex state.  Most implementations do this by observing the store for action or mutation events.
+The difficulty is knowing when to snapshot the Vuex state.  Most implementations I've seen do this by observing the store for action or mutation events.
 
 Neither approach worked for me since some actions in my store make multiple mutations.  This lead to either:
 
@@ -44,7 +44,7 @@ A getter and mutation named `vuexUndoRedo` must be added to your Vuex store (the
 
 The `vuexUndoRedo` getter return value is added to the undo stack when a snapshot is made.  This can be setup to return the entire Vuex state or just a section of it.  The value gets passed to the `vuexUndoRedo` mutation when an undo or redo event takes place.
 
-The `vuexUndoRedo` mutation receives the undo/redo payload when an undo or redo event occurs.  The mutation applies the payload to the store.
+The `vuexUndoRedo` mutation receives the undo/redo payload when an undo or redo event occurs.  The mutation applies the payload to the store to complete the state change.
 
 For example, the following getter and mutation could be used to snapshot and restore the entire Vuex state.
 
@@ -96,7 +96,7 @@ The default options are as follows and can be overridden:
 ```js
 const options = {
 	stackSize: 10, // how many undo snapshots to store
-	debounceTime: 1000, // the denounce time before creating a snapshot
+	debounceTime: 1000, // the debounce time before creating a snapshot
 	ignoreMutations: [], // an array of mutations to ignore
 	mutation: 'vuexUndoRedo', // the name of the mutation (see above)
 	getter: 'vuexUndoRedo' // the name of the getter (see above)
