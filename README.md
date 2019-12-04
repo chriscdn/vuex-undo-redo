@@ -6,7 +6,7 @@ An undo/redo for Vuex.
 
 There are many Vuex undo/redo solutions, but I couldn't find one that fit my needs.
 
-The difficulty is knowing when to snapshot the Vuex state.  Most implementations I've seen do this by observing the store for action or mutation events.
+The difficulty is knowing when to snapshot the Vuex state.  Most implementations do this by observing the store for action or mutation events.
 
 Neither approach worked for me since some actions in my store make multiple mutations.  This lead to either:
 
