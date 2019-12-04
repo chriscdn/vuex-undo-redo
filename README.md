@@ -6,25 +6,23 @@ An undo/redo for Vuex.
 
 There are many Vuex undo/redo solutions, but I couldn't find one that fit my needs.
 
-The difficulty is knowing when to create a snapshot of the Vuex state.  Most implementations do this by observing the store for action or mutation events.
+The difficulty is knowing when to snapshot the Vuex state.  Most implementations do this by observing the store for action or mutation events.
 
-Neither of these approaches worked for me since many actions in my store make multiple mutations.  This lead to either:
+Neither approach worked for me since some actions in my store make multiple mutations.  This lead to either:
 
-- too many snapshots being created when only observing mutations; or
-- missing mutation events when only observing actions.
+- too many snapshots being created by actions when observing mutations; or
+- not creating a snapshot after a mutation when only observing actions.
 
-I also required finer control of what parts of the Vuex model should be observed and modified by undo and redo events.
-
-This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for one second (this is configurable).  This allows an action to make multiple consecutive commits with only one snapshot being created.
+This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for a duration of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
 
 This may or may not suit your requirements, but has worked well for me.
 
 ## Features
 
 - can be dynamically added and removed from an existing store
-- can be setup to snapshot and restore any part of your Vuex store
+- can be setup to snapshot and restore all or parts of your Vuex store
 - convenient `canUndo` and `canRedo` reactive properties (to use in your UI)
-- can be configured to ignore specific mutation events
+- can be configured ￼￼to ignore specific mutation events
 
 ## Installing
 
@@ -42,11 +40,11 @@ $ yarn add @chriscdn/vuex-undo-redo
 
 ## Setup
 
-A getter *and* mutation named `vuexUndoRedo` must be added to your Vuex store (the names can be configured).
+A getter and mutation named `vuexUndoRedo` must be added to your Vuex store (the names can be configured).
 
-The return value of the getter is what gets added to the undo stack.  This can be setup to return the entire state of the store or just a part of it.
+The `vuexUndoRedo` getter return value is what gets added to the undo stack.  This can be setup to return the entire Vuex state or just a section of it.
 
-The mutation receives the snapshot from the getter when an undo or redo is applied.  It's your responsibility to apply the payload appropriately to the store.
+The `vuexUndoRedo` mutation receives the snapshot payload when an undo or redo is applied.  It's your responsibility to apply the payload appropriately to the store.
 
 For example, the following could be used to snapshot and restore the entire Vuex state.
 
@@ -62,7 +60,7 @@ vuexUndoRedo(state, payload) {
 }
 ```
 
-An instance can be instantiated as follows:
+A `VuexUndoRedo` instance can be instantiated as follows:
 
 ```js
 import VuexUndoRedo from '@chriscdn/vuex-undo-redo'
@@ -70,7 +68,7 @@ import VuexUndoRedo from '@chriscdn/vuex-undo-redo'
 const vuexUndoRedo = VuexUndoRedo(store[, options])
 ```
 
-It's up to you to decide where to store the `vuexUndoRedo` instance.  For example, to make it globally available you could add it to the Vue prototype:
+It's up to you to decide where you'd like to store the `vuexUndoRedo` instance.  For example, to make it globally available you could add it to the Vue prototype:
 
 ```js
 Vue.prototype.$vuexUndoRedo = VuexUndoRedo(store, options)
@@ -98,16 +96,16 @@ The default options are as follows and can be overridden.
 ```js
 const options = {
 	stackSize: 10, // how many undo snapshots to store
-	debounceTime: 1000, // the time in milliseconds to wait before creating a snapshot
+	debounceTime: 1000, // the denounce time before creating a snapshot
 	ignoreMutations: [], // an array of mutations to ignore
-	mutator: 'vuexUndoRedo', // the name of the mutator (see above)
+	mutation: 'vuexUndoRedo', // the name of the mutation (see above)
 	getter: 'vuexUndoRedo' // the name of the getter (see above)
 }
 ```
 
 ### Instance properties
 
-The `canUndo` and `canRedo` properties are reactive and return `true` or `false`.  For example, these can be used in the user interface to enable or disable a button.
+The `canUndo` and `canRedo` properties are reactive and return `true` or `false`.  These can, for example, be used in the user interface to enable or disable buttons.
 
 ```html
 <button :disabled="!vuexUndoRedo.canUndo" @click="vuexUndoRedo.undo">Undo</button>
@@ -120,10 +118,10 @@ The `canUndo` and `canRedo` properties are reactive and return `true` or `false`
 #### Undo or Redo
 
 ```js
-// Pops the undo stack and passes the value to the vuexUndoRedo mutator
+// Pops the undo stack and passes the value to the vuexUndoRedo mutation
 vuexUndoRedo.undo()
 
-// Pops the redo stack and passes the value to the vuexUndoRedo mutator
+// Pops the redo stack and passes the value to the vuexUndoRedo mutation
 vuexUndoRedo.redo()
 ```
 
