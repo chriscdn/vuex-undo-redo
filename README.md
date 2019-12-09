@@ -137,7 +137,7 @@ vuexUndoRedo.reset()
 // suspend observing mutations
 vuexUndoRedo.suspend()
 
-// resume observe mutations (enabled by default)
+// resume observing mutations (enabled by default)
 vuexUndoRedo.resume()
 ```
 
