@@ -133,10 +133,10 @@ vuexUndoRedo.reset()
 #### Disable/enable making snapshots
 
 ```js
-// stop observing mutations
+// disable observing mutations
 vuexUndoRedo.disable()
 
-// observe mutations (enabled by default)
+// enable observe mutations (enabled by default)
 vuexUndoRedo.enable()
 ```
 
