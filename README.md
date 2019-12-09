@@ -13,7 +13,7 @@ Neither approach worked for me since some actions in my store make multiple muta
 - too many snapshots being created by actions when observing mutations; or
 - not having a snapshot created after a mutation when only observing actions.
 
-This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for a duration of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
+This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for a period of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
 
 This may or may not suit your requirements, but has worked well for me.
 
@@ -23,6 +23,7 @@ This may or may not suit your requirements, but has worked well for me.
 - can be setup to snapshot and restore all or parts of your Vuex store
 - convenient `canUndo` and `canRedo` reactive properties (to use in your UI)
 - can be configured to ignore specific mutation events
+- `suspend` and `resume` functions to suspend and resume the creation of snapshots
 
 ## Installing
 
@@ -130,14 +131,14 @@ vuexUndoRedo.redo()
 vuexUndoRedo.reset()
 ```
 
-#### Disable/enable making snapshots
+#### Suspend/resume snapshots
 
 ```js
-// disable observing mutations
-vuexUndoRedo.disable()
+// suspend observing mutations
+vuexUndoRedo.suspend()
 
-// enable observe mutations (enabled by default)
-vuexUndoRedo.enable()
+// resume observe mutations (enabled by default)
+vuexUndoRedo.resume()
 ```
 
 #### Destroy the instance

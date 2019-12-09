@@ -68,12 +68,12 @@ export default function(store, options = {}) {
 					this.setStateToStore(this.redoStack.pop())
 				}
 			},
-			enable() {
+			resume() {
 				this.enabled = true
 				this.snapshot()
 			},
 
-			disable() {
+			suspend() {
 				this.enabled = false
 			},
 
