@@ -11,7 +11,7 @@ The difficulty is knowing when to snapshot the Vuex state.  Most implementations
 Neither approach worked for me since some actions in my store make multiple mutations.  This lead to either:
 
 - too many snapshots being created by actions when observing mutations; or
-- not creating a snapshot after a mutation when only observing actions.
+- not having a snapshot created after a mutation when only observing actions.
 
 This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for a duration of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
 
@@ -44,7 +44,7 @@ A getter and mutation named `vuexUndoRedo` must be added to your Vuex store (the
 
 The `vuexUndoRedo` getter return value is added to the undo stack when a snapshot is made.  This can be setup to return the entire Vuex state or just a section of it.  The value gets passed to the `vuexUndoRedo` mutation when an undo or redo event takes place.
 
-The `vuexUndoRedo` mutation receives the undo/redo payload when an undo or redo event occurs.  The mutation applies the payload to the store to complete the state change.
+The `vuexUndoRedo` mutation receives the undo/redo payload when the `undo()` or `redo()` method is called.  The mutation applies the payload to the store to complete the state change.
 
 For example, the following getter and mutation could be used to snapshot and restore the entire Vuex state.
 
@@ -110,7 +110,6 @@ The `canUndo` and `canRedo` reactive properties return `true` or `false`.  These
 ```html
 <button :disabled="!vuexUndoRedo.canUndo" @click="vuexUndoRedo.undo">Undo</button>
 <button :disabled="!vuexUndoRedo.canRedo" @click="vuexUndoRedo.redo">Redo</button>
-
 ```
 
 ### Instance methods
@@ -129,6 +128,16 @@ vuexUndoRedo.redo()
 
 ```js
 vuexUndoRedo.reset()
+```
+
+#### Disable or Enable Making Snapshots
+
+```js
+// stop observing mutations
+vuexUndoRedo.disable()
+
+// observe mutations
+vuexUndoRedo.enable()
 ```
 
 #### Destroy the instance

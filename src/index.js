@@ -23,13 +23,13 @@ export default function(store, options = {}) {
 		data() {
 			return {
 				undoStack: [],
-				redoStack: []
+				redoStack: [],
+				enabled: true
 				// previousState: null
 			}
 		},
 		computed: {
-			// The entire point of using a Vue instance is such that 
-			// these properties are reactive and can be used in the UI.
+			// The entire reason for using a Vue instance is to make these properties reactive.
 			canUndo() {
 				return this.undoStack.length > 0
 			},
@@ -67,6 +67,14 @@ export default function(store, options = {}) {
 					this.undoStack.push(this.currentStateCopy())
 					this.setStateToStore(this.redoStack.pop())
 				}
+			},
+			enable() {
+				this.enabled = true
+				this.snapshot()
+			},
+
+			disable() {
+				this.enabled = false
 			},
 
 			reset() {
@@ -110,8 +118,10 @@ export default function(store, options = {}) {
 				// So we have two debounced methods.  One pushes the current state onto 
 				// the undoStack, while the other captures the current state after everything
 				// is applied.
-				this.snapshotLeading()
-				this.snapshotTrailing()
+				if (this.enabled) {
+					this.snapshotLeading()
+					this.snapshotTrailing()
+				}
 			},
 
 			// cancel() {
