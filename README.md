@@ -13,7 +13,7 @@ Neither approach worked for me since some actions in my store make multiple muta
 - too many snapshots being created by actions when observing mutations; or
 - not having a snapshot created after a mutation when only observing actions.
 
-This module works by observing mutations and debouncing the method that creates the snapshot.  The snapshot is made after no mutation event is observed for a period of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
+This module works by observing mutations and debouncing the snapshot creation method.  This ensure a snapshot is only made after no mutation event is observed for a period of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
 
 This may or may not suit your requirements, but has worked well for me.
 
@@ -45,7 +45,7 @@ A getter and mutation named `vuexUndoRedo` must be added to your Vuex store (the
 
 The `vuexUndoRedo` getter return value is added to the undo stack when a snapshot is made.  This can be setup to return the entire Vuex state or just a section of it.  The value gets passed to the `vuexUndoRedo` mutation when an undo or redo event takes place.
 
-The `vuexUndoRedo` mutation receives the undo/redo payload when the `undo()` or `redo()` method is called.  The mutation applies the payload to the store to complete the state change.
+The `vuexUndoRedo` mutation receives the undo/redo payload when the `undo()` or `redo()` method is called.  The mutation should apply the payload to the store to complete the state change.
 
 For example, the following getter and mutation could be used to snapshot and restore the entire Vuex state.
 
@@ -106,7 +106,7 @@ const options = {
 
 ### Instance properties
 
-The `canUndo` and `canRedo` reactive properties return `true` or `false`.  These could, for example, be used in the user interface to enable or disable buttons.
+The `canUndo` and `canRedo` reactive properties return `true` or `false`.  These can be used in the user interface to enable or disable buttons.
 
 ```html
 <button :disabled="!vuexUndoRedo.canUndo" @click="vuexUndoRedo.undo">Undo</button>
