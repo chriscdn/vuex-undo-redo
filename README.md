@@ -13,7 +13,7 @@ Neither approach worked for me since some actions in my store make multiple muta
 - too many snapshots being created by actions when observing mutations; or
 - not having a snapshot created after a mutation when only observing actions.
 
-This module works by observing mutations and debouncing the snapshot creation method.  This ensure a snapshot is only made after no mutation event is observed for a period of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
+This module works by observing mutations and debouncing the snapshot creation method.  This ensures a snapshot is only made after no mutation event is observed for a period of one second.  This allows an action to make multiple consecutive mutations with only one snapshot being created.
 
 This may or may not suit your requirements, but has worked well for me.
 
