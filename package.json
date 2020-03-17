@@ -1,6 +1,6 @@
 {
   "name": "@chriscdn/vuex-undo-redo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A undo/redo manager for Vuex",
   "main": "lib/index.js",
   "repository": "https://github.com/chriscdn/vuex-undo-redo",
