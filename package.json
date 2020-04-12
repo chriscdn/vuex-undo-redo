@@ -1,26 +1,32 @@
 {
-  "name": "@chriscdn/vuex-undo-redo",
-  "version": "1.0.4",
-  "description": "A undo/redo manager for Vuex",
-  "main": "lib/index.js",
-  "repository": "https://github.com/chriscdn/vuex-undo-redo",
-  "author": "Christopher Meyer",
-  "license": "MIT",
-  "scripts": {
-    "build": "babel src -d lib"
-  },
-  "dependencies": {
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.debounce": "^4.0.8"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.7",
-    "@babel/preset-env": "^7.8.7"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
+    "name": "@chriscdn/vuex-undo-redo",
+    "version": "1.0.4",
+    "description": "An undo/redo manager for Vuex",
+    "main": "lib/index.js",
+    "repository": "https://github.com/chriscdn/vuex-undo-redo",
+    "author": "Christopher Meyer",
+    "license": "MIT",
+    "scripts": {
+        "build": "babel src -d lib"
+    },
+    "dependencies": {
+        "lodash.clonedeep": "^4.5.0",
+        "lodash.debounce": "^4.0.8"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.8.4",
+        "@babel/core": "^7.8.7",
+        "@babel/preset-env": "^7.8.7"
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-env"
+        ]
+    },
+    "keywords": [
+        "vue",
+        "vuex",
+        "undo",
+        "redo"
     ]
-  }
 }
