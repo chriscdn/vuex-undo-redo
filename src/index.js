@@ -1,8 +1,7 @@
 import Vue from 'vue'
 
-const debounce = require('lodash.debounce')
-const clonedeep = require('lodash.clonedeep')
-
+import debounce from 'lodash.debounce'
+import clonedeep from 'lodash.clonedeep'
 
 const defaultOptions = {
 	stackSize: 10,
@@ -12,7 +11,7 @@ const defaultOptions = {
 	getter: 'vuexUndoRedo'
 }
 
-export default function(store, options = {}) {
+export default (store, options = {}) => {
 
 	options = {
 		...defaultOptions,
